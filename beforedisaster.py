@@ -33,7 +33,26 @@ class MyBot(commands.Bot):
 
 bot = MyBot(command_prefix='!', intents=intents)
 
+@bot.tree.command(name='help', description='Muestra la lista de comandos disponibles')
+async def help(interaction: discord.Interaction):
+    help_message = """
+📜 **Lista de comandos disponibles:**
 
+🗑️ **/clear_queue** — Limpia la cola de canciones.
+❓ **/help** — Muestra este mensaje de ayuda.
+📞 **/join** — Conecta al bot al canal de voz.
+👣 **/leave** — Desconecta al bot del canal de voz.
+🎶 **/now_playing** — Muestra la canción actual.
+⏸️**/pause** — Pausa la canción actual.
+🎵 **/play <url>** — Reproduce una canción desde un link de YouTube.
+📃 **/queue_list** — Muestra la lista de canciones en cola.
+🚫 **/remove** — Elimina una cancion de la cola.
+▶️ **/resume** — Reanuda la cancion pausada.
+⏭️ **/skip** — Salta a la siguiente canción en la cola.
+📴 **/stop** — Detiene la música y desconecta al bot.
+
+"""
+    await interaction.response.send_message(help_message)
 
 
 @bot.tree.command(name='join', description='Conecta el bot al canal de voz actual')
