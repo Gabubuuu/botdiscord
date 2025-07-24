@@ -21,7 +21,20 @@ intents.guilds = True
 now_playing = {}
 
 
-bot = commands.Bot(command_prefix='!', intents=intents)
+
+class MyBot(commands.Bot):
+    async def setup_hook(self):
+        await self.tree.sync()
+        print(f"✅ Comandos slash sincronizados en el servidor {my_guild_id.id}")
+        print("Lista de comandos:")
+        for cmd in self.tree.get_commands():
+            print(f"- /{cmd.name}: {cmd.description}")
+
+
+bot = MyBot(command_prefix='!', intents=intents)
+
+
+
 
 @bot.tree.command(name='join', description='Conecta el bot al canal de voz actual')
 async def join(interaction: discord.Interaction):
@@ -176,14 +189,7 @@ async def now_playing_cmd(interaction: discord.Interaction):
         await interaction.response.send_message('No hay ninguna canción sonando')
 
 
-@bot.event
-async def on_ready():
-    print(f"✅ Bot listo como {bot.user}")
-    try:              
-        await bot.tree.sync(guild=my_guild_id) 
-        print(f"✅ Comandos slash sincronizados en el servidor {my_guild_id.id}")
-    except Exception as e:
-        print(f"Error al sincronizar comandos: {e}")
+
 
 
 
